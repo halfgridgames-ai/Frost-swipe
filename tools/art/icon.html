@@ -1,0 +1,116 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>@font-face{font-family:Fredoka;src:url(fredoka.woff2) format("woff2");font-weight:300 700}</style>
+<style>html,body{margin:0;background:#0f1f3a}canvas{display:block}</style></head>
+<body><canvas id="c"></canvas>
+<script>
+// Draws the Frost Swipe icon (?mode=icon, 1024x1024) or the Play feature graphic (?mode=feature, 1024x500).
+// Rendered to PNG by tools/art/render.js.
+const mode = new URLSearchParams(location.search).get('mode') || 'icon';
+const W = mode === 'icon' ? 1024 : 1024, H = mode === 'icon' ? 1024 : 500;
+const c = document.getElementById('c'); c.width = W; c.height = H; const x = c.getContext('2d');
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+function scene(g, w, h) {   // warm winter sunrise over a snowy village
+  const sky = g.createLinearGradient(0, 0, 0, h);
+  sky.addColorStop(0, '#ff9b5e'); sky.addColorStop(0.45, '#ffc27a'); sky.addColorStop(0.75, '#ffe3b0'); sky.addColorStop(1, '#fff3dc');
+  g.fillStyle = sky; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#fff6d8'; g.beginPath(); g.arc(w * 0.66, h * 0.5, h * 0.13, 0, 7); g.fill();
+  g.fillStyle = 'rgba(255,240,200,.45)'; g.beginPath(); g.arc(w * 0.66, h * 0.5, h * 0.2, 0, 7); g.fill();
+  // hills
+  g.fillStyle = '#c9dcf2'; g.beginPath(); g.moveTo(0, h * 0.72); g.quadraticCurveTo(w * 0.3, h * 0.6, w * 0.6, h * 0.7); g.quadraticCurveTo(w * 0.85, h * 0.76, w, h * 0.66); g.lineTo(w, h); g.lineTo(0, h); g.fill();
+  g.fillStyle = '#f2f8ff'; g.beginPath(); g.moveTo(0, h * 0.82); g.quadraticCurveTo(w * 0.45, h * 0.72, w, h * 0.84); g.lineTo(w, h); g.lineTo(0, h); g.fill();
+  // houses
+  const house = (hx, hy, s, col) => {
+    g.fillStyle = col; g.fillRect(hx - s, hy - s * 1.1, s * 2, s * 1.1);
+    g.fillStyle = '#6b3d2e'; g.beginPath(); g.moveTo(hx - s * 1.25, hy - s * 1.05); g.lineTo(hx, hy - s * 2.1); g.lineTo(hx + s * 1.25, hy - s * 1.05); g.fill();
+    g.fillStyle = '#ffffff'; g.beginPath(); g.moveTo(hx - s * 1.28, hy - s * 1.02); g.lineTo(hx, hy - s * 2.12); g.lineTo(hx + s * 1.28, hy - s * 1.02); g.lineTo(hx + s * 1.05, hy - s * 0.95); g.lineTo(hx, hy - s * 1.8); g.lineTo(hx - s * 1.05, hy - s * 0.95); g.fill();
+    g.fillStyle = '#ffd25e'; g.fillRect(hx - s * 0.55, hy - s * 0.8, s * 0.45, s * 0.42); g.fillRect(hx + s * 0.12, hy - s * 0.8, s * 0.45, s * 0.42);
+  };
+  house(w * 0.3, h * 0.8, h * 0.075, '#e8476a'); house(w * 0.5, h * 0.78, h * 0.06, '#4f7cf0'); house(w * 0.78, h * 0.82, h * 0.07, '#38c08a');
+  // trees
+  for (const [tx, ty, s] of [[0.13, 0.82, 0.08], [0.9, 0.86, 0.07], [0.62, 0.8, 0.05]]) {
+    g.fillStyle = '#2f7d5c'; g.beginPath(); g.moveTo(w * tx, h * (ty - s * 2.4)); g.lineTo(w * tx - h * s * 0.8, h * ty); g.lineTo(w * tx + h * s * 0.8, h * ty); g.fill();
+    g.fillStyle = '#fff'; g.beginPath(); g.moveTo(w * tx, h * (ty - s * 2.4)); g.lineTo(w * tx - h * s * 0.35, h * (ty - s * 1.5)); g.lineTo(w * tx + h * s * 0.35, h * (ty - s * 1.5)); g.fill();
+  }
+}
+function frost(g, w, h) {   // frosted glass: pale blue blur, grain and fern crystals
+  const f = g.createLinearGradient(0, 0, w, h);
+  f.addColorStop(0, '#e9f6ff'); f.addColorStop(0.5, '#cfe9fb'); f.addColorStop(1, '#b4dcf6');
+  g.fillStyle = f; g.fillRect(0, 0, w, h);
+  for (let i = 0; i < 2600; i++) { g.fillStyle = `rgba(255,255,255,${0.15 + rnd() * 0.5})`; const r = rnd() * 2.4 + 0.4; g.fillRect(rnd() * w, rnd() * h, r, r); }
+  g.strokeStyle = 'rgba(255,255,255,.75)'; g.lineCap = 'round';
+  const fern = (fx, fy, a, len, d) => {
+    if (d > 4 || len < 6) return;
+    const ex = fx + Math.cos(a) * len, ey = fy + Math.sin(a) * len;
+    g.lineWidth = Math.max(1, 5 - d); g.beginPath(); g.moveTo(fx, fy); g.lineTo(ex, ey); g.stroke();
+    for (let k = 1; k <= 3; k++) { const t = k / 4, bx = fx + (ex - fx) * t, by = fy + (ey - fy) * t; fern(bx, by, a + 0.9, len * 0.42, d + 1); fern(bx, by, a - 0.9, len * 0.42, d + 1); }
+  };
+  for (let i = 0; i < 14; i++) fern(rnd() * w, rnd() * h, rnd() * 6.28, (40 + rnd() * 90) * w / 1024, 0);
+}
+function swipePath(g, pts, width) { g.lineWidth = width; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length - 1; i++) { const mx = (pts[i][0] + pts[i + 1][0]) / 2, my = (pts[i][1] + pts[i + 1][1]) / 2; g.quadraticCurveTo(pts[i][0], pts[i][1], mx, my); } const l = pts[pts.length - 1]; g.lineTo(l[0], l[1]); g.stroke(); }
+function scraper(g, sx, sy, s, ang) {
+  g.save(); g.translate(sx, sy); g.rotate(ang);
+  g.shadowColor = 'rgba(10,25,50,.45)'; g.shadowBlur = s * 0.25; g.shadowOffsetY = s * 0.08;
+  // handle
+  const hg = g.createLinearGradient(-s * 0.18, 0, s * 0.18, 0); hg.addColorStop(0, '#ffa45e'); hg.addColorStop(1, '#e0661c');
+  g.fillStyle = hg; g.beginPath(); g.roundRect(-s * 0.17, s * 0.05, s * 0.34, s * 1.05, s * 0.17); g.fill();
+  g.shadowColor = 'transparent';
+  g.fillStyle = 'rgba(255,255,255,.35)'; g.beginPath(); g.roundRect(-s * 0.1, s * 0.15, s * 0.07, s * 0.8, s * 0.04); g.fill();
+  // blade head
+  const bg = g.createLinearGradient(0, -s * 0.35, 0, s * 0.1); bg.addColorStop(0, '#ffcf6e'); bg.addColorStop(1, '#ff8a3d');
+  g.fillStyle = bg; g.beginPath(); g.moveTo(-s * 0.55, -s * 0.3); g.lineTo(s * 0.55, -s * 0.3); g.lineTo(s * 0.3, s * 0.12); g.lineTo(-s * 0.3, s * 0.12); g.closePath(); g.fill();
+  g.fillStyle = '#ffffff'; g.fillRect(-s * 0.55, -s * 0.36, s * 1.1, s * 0.08);
+  g.restore();
+}
+function sparkle(g, sx, sy, r) { g.fillStyle = '#fff'; g.beginPath(); for (let i = 0; i < 8; i++) { const a = i * Math.PI / 4, rr = i % 2 ? r * 0.28 : r; g.lineTo(sx + Math.cos(a) * rr, sy + Math.sin(a) * rr); } g.fill(); }
+
+function pane(px, py, pw, ph, rad, pts, width, scr) {
+  // offscreen layers: scene, frost with the swipe erased
+  const a = document.createElement('canvas'); a.width = pw; a.height = ph; const ga = a.getContext('2d'); scene(ga, pw, ph);
+  const b = document.createElement('canvas'); b.width = pw; b.height = ph; const gb = b.getContext('2d'); frost(gb, pw, ph);
+  gb.globalCompositeOperation = 'destination-out'; gb.strokeStyle = '#000'; swipePath(gb, pts, width);
+  // soft frost rim along the swipe
+  const rim = document.createElement('canvas'); rim.width = pw; rim.height = ph; const gr = rim.getContext('2d');
+  gr.strokeStyle = 'rgba(255,255,255,.95)'; swipePath(gr, pts, width + width * 0.16); gr.globalCompositeOperation = 'destination-out'; gr.strokeStyle = '#000'; swipePath(gr, pts, width);
+  x.save(); x.beginPath(); x.roundRect(px, py, pw, ph, rad); x.clip();
+  x.drawImage(a, px, py); x.drawImage(b, px, py); x.globalAlpha = 0.9; x.drawImage(rim, px, py); x.globalAlpha = 1;
+  // glass shine
+  const sh = x.createLinearGradient(px, py, px + pw, py + ph); sh.addColorStop(0, 'rgba(255,255,255,.22)'); sh.addColorStop(0.35, 'rgba(255,255,255,0)'); x.fillStyle = sh; x.fillRect(px, py, pw, ph);
+  x.restore();
+  const end = pts[pts.length - 1], prev = pts[pts.length - 2];
+  if (scr) scraper(x, end[0] + px, end[1] + py, scr, Math.atan2(end[1] - prev[1], end[0] - prev[0]) - Math.PI / 2);
+}
+
+document.fonts.load('700 40px Fredoka').then(() => document.fonts.load('600 40px Fredoka')).then(draw);
+function draw() {
+if (mode === 'icon') {
+  const bg = x.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#2a4f8c'); bg.addColorStop(1, '#0f1f3a'); x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  // window frame
+  x.fillStyle = '#f4f9ff'; x.beginPath(); x.roundRect(96, 96, 832, 832, 120); x.fill();
+  x.fillStyle = '#c8dcef'; x.beginPath(); x.roundRect(116, 122, 792, 792, 104); x.fill();
+  const P = 150, S = 724;
+  const pts = [[40, 650], [200, 470], [380, 560], [540, 360], [585, 330]];
+  pane(P, P, S, S, 82, pts, 200, 0);
+  // snow on the sill
+  x.fillStyle = '#ffffff'; x.beginPath(); x.moveTo(110, 900); x.quadraticCurveTo(300, 850, 512, 880); x.quadraticCurveTo(720, 845, 914, 895); x.lineTo(914, 930); x.lineTo(110, 930); x.fill();
+  scraper(x, P + 610, P + 312, 205, Math.atan2(-30, 45) + Math.PI / 2);
+  sparkle(x, 270, 300, 34); sparkle(x, 700, 640, 26); sparkle(x, 800, 240, 20);
+} else {
+  const bg = x.createLinearGradient(0, 0, W, H); bg.addColorStop(0, '#2a4f8c'); bg.addColorStop(1, '#0f1f3a'); x.fillStyle = bg; x.fillRect(0, 0, W, H);
+  for (let i = 0; i < 120; i++) { x.fillStyle = `rgba(255,255,255,${0.3 + rnd() * 0.6})`; x.beginPath(); x.arc(rnd() * W, rnd() * H, rnd() * 3 + 1, 0, 7); x.fill(); }
+  x.fillStyle = '#f4f9ff'; x.beginPath(); x.roundRect(560, 44, 412, 412, 60); x.fill();
+  const pts = [[20, 330], [100, 240], [190, 290], [270, 190], [292, 175]];
+  pane(584, 68, 364, 364, 40, pts, 100, 0);
+  scraper(x, 584 + 300, 68 + 168, 130, Math.atan2(-15, 22) + Math.PI / 2);
+  x.textBaseline = 'alphabetic'; x.fillStyle = '#ffffff';
+  x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = 14; x.shadowOffsetY = 6;
+  x.font = '700 92px Fredoka'; x.fillText('Frost Swipe', 56, 230);
+  x.shadowColor = 'transparent';
+  x.fillStyle = '#ff8a3d'; x.font = '600 50px Fredoka'; x.fillText('Scrape & Reveal', 60, 300);
+  x.fillStyle = '#8fd8ff'; x.font = '600 34px Fredoka'; x.fillText('Five swipes. Clear the glass.', 60, 370);
+  sparkle(x, 520, 120, 18); sparkle(x, 470, 420, 14);
+}
+window.done = true;
+}
+</script></body></html>

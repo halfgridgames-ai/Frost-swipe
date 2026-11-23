@@ -1,0 +1,9 @@
+node_modules/
+shots/
+frost-swipe-web.zip
+# signing material - never commit
+*.jks
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
