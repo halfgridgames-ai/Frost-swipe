@@ -28,7 +28,7 @@ async function raw(b, w, h, spec) {
   const b = await chromium.launch();
   for (const [dir, W, H, vw, vh] of [['screenshots', 1080, 1920, 390, 844], ['ios', 1320, 2868, 430, 932]]) {
     fs.mkdirSync(path.join(root, 'store', dir), { recursive: true });
-    for (const [name, title, sub, spec] of SHOTS) {
+    for (const [name, title, sub, spec] of SHOTS.filter(s => !process.env.ONLY || s[0] === process.env.ONLY)) {
       const img = (await raw(b, vw, vh, spec)).toString('base64');
       const p = await b.newPage({ viewport: { width: W, height: H } });
       await p.goto('file://' + path.join(__dirname, 'compose.html')); await p.evaluate(a => window.setShot(...a), [img, title, sub, W, H]); await p.waitForFunction(() => window.ready);
