@@ -1730,12 +1730,11 @@ function maybeReview(stars) {
    In the app this talks to AdMob and the store. Everywhere else it runs in test mode: ads are a short
    stand-in card and purchases are free test purchases, so every flow can be tried.
    Before launch, swap the Google test ad unit ids below for real ones from AdMob. */
-// Google's test units for now. Once the Frost Swipe AdMob apps exist, put the real unit ids here, the real app ids in
-// AndroidManifest.xml and Info.plist, and set AD_TESTING to false.
+// Real Frost Swipe AdMob units (Android app ~7852353015, iOS app ~6399544236).
 const AD_UNITS = PLATFORM === 'ios'
-  ? { rewarded: 'ca-app-pub-3940256099942544/1712485313', interstitial: 'ca-app-pub-3940256099942544/4411468910' }
-  : { rewarded: 'ca-app-pub-3940256099942544/5224354917', interstitial: 'ca-app-pub-3940256099942544/1033173712' };
-const AD_TESTING = true;
+  ? { rewarded: 'ca-app-pub-4390358547833612/9820040805', interstitial: 'ca-app-pub-4390358547833612/4567587810' }
+  : { rewarded: 'ca-app-pub-4390358547833612/5988480696', interstitial: 'ca-app-pub-4390358547833612/3059065021' };
+const AD_TESTING = false;   // real ads on Android and iPhone; the web version still shows stand-in ads
 // App Store product ids are unique across the whole developer account, so the iPhone ids carry an fs_ prefix.
 // The game always uses the plain ids; storeId/gameId translate at the store boundary.
 const storeId = id => PLATFORM === 'ios' ? 'fs_' + id : id;

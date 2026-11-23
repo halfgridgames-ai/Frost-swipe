@@ -26,11 +26,10 @@
 
         </activity>
 
-        <!-- AdMob app id (Android). Note the "~" (app id), not the "/" used by ad unit ids.
-             This is Google's TEST app id; swap in the Frost Swipe AdMob app id before release. -->
+        <!-- AdMob app id for Frost Swipe (Android). Note the "~" (app id), not the "/" used by ad unit ids. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-4390358547833612~7852353015" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
