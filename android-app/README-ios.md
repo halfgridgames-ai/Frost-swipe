@@ -52,7 +52,7 @@ Use Safari or Chrome on the phone. Where a site looks cramped, choose
    **Team Keys -> +**, name `GitHub`, access **Admin** -> **Generate**. Note the
    **Issuer ID** (above the list) and the **Key ID**, then tap **Download** (only allowed once).
 6. **Find the Team ID**: developer.apple.com/account -> **Membership details -> Team ID**.
-7. **Add four secrets on GitHub**: github.com/halfgridgames-ai/frost-swipe -> **Settings ->
+7. **Add four secrets on GitHub**: github.com/halfgridgames-ai/Frost-swipe -> **Settings ->
    Secrets and variables -> Actions -> New repository secret**:
 
    | Secret | Value |
@@ -85,7 +85,7 @@ Use Safari or Chrome on the phone. Where a site looks cramped, choose
 4. **App Privacy** (App Store Connect -> App Privacy): the game itself collects nothing, but
    AdMob does. Declare Device ID, Advertising Data, Product Interaction, Coarse Location and
    Crash/Performance Data, used for Third-Party Advertising and Analytics, and **used for
-   tracking**. Privacy policy URL: https://halfgridgames-ai.github.io/frost-swipe/privacy.html
+   tracking**. Privacy policy URL: https://halfgridgames-ai.github.io/Frost-swipe/privacy.html
 5. **Store page**: 6.9" iPhone screenshots (1320x2868), description, keywords, support URL
    (the Pages site works), age rating questionnaire.
 

@@ -36,7 +36,7 @@ Frost Swipe is free to play with optional in-app purchases and ads. Remove Ads i
 
 **Category:** Casual · **Tags:** Casual, Relaxing, Satisfying
 **Contact email:** halfgridgames@gmail.com
-**Privacy policy:** https://halfgridgames-ai.github.io/frost-swipe/privacy.html
+**Privacy policy:** https://halfgridgames-ai.github.io/Frost-swipe/privacy.html
 **Content rating:** Everyone / PEGI 3 (no violence, no gambling; ads and in-app purchases)
 **Ads:** Yes · **In-app purchases:** Yes
 
@@ -49,8 +49,8 @@ Frost Swipe is free to play with optional in-app purchases and ads. Remove Ads i
 **Keywords** (100 max): frost,ice,scraper,window,winter,satisfying,asmr,snow,relaxing,clean,wipe,fog,puzzle,cozy,casual
 **Promotional text:** Winter is here! Scrape frozen windows clear in five swipes and find what's hidden underneath.
 **Description:** same as Google Play.
-**Support URL:** https://halfgridgames-ai.github.io/frost-swipe/
-**Privacy policy URL:** https://halfgridgames-ai.github.io/frost-swipe/privacy.html
+**Support URL:** https://halfgridgames-ai.github.io/Frost-swipe/
+**Privacy policy URL:** https://halfgridgames-ai.github.io/Frost-swipe/privacy.html
 **Age rating:** 4+ (no objectionable content; ads present)
 **Category:** Games › Casual (secondary: Puzzle)
 
